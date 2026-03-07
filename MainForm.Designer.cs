@@ -33,6 +33,9 @@
             check = new DataGridViewCheckBoxColumn();
             packageName = new DataGridViewTextBoxColumn();
             name = new DataGridViewTextBoxColumn();
+            cancelCheck = new Button();
+            search = new Button();
+            searchText = new TextBox();
             activated = new Button();
             uninstall = new Button();
             packageManager = new Button();
@@ -57,6 +60,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(cancelCheck);
+            splitContainer1.Panel2.Controls.Add(search);
+            splitContainer1.Panel2.Controls.Add(searchText);
             splitContainer1.Panel2.Controls.Add(activated);
             splitContainer1.Panel2.Controls.Add(uninstall);
             splitContainer1.Panel2.Controls.Add(packageManager);
@@ -95,6 +101,33 @@
             name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             name.HeaderText = "应用";
             name.Name = "name";
+            // 
+            // cancelCheck
+            // 
+            cancelCheck.Location = new Point(327, 3);
+            cancelCheck.Name = "cancelCheck";
+            cancelCheck.Size = new Size(75, 23);
+            cancelCheck.TabIndex = 6;
+            cancelCheck.Text = "取消选中";
+            cancelCheck.UseVisualStyleBackColor = true;
+            cancelCheck.Click += CanselCheckAll;
+            // 
+            // search
+            // 
+            search.Location = new Point(713, 4);
+            search.Name = "search";
+            search.Size = new Size(75, 23);
+            search.TabIndex = 5;
+            search.Text = "搜索";
+            search.UseVisualStyleBackColor = true;
+            search.Click += SearchPackage;
+            // 
+            // searchText
+            // 
+            searchText.Location = new Point(535, 4);
+            searchText.Name = "searchText";
+            searchText.Size = new Size(172, 23);
+            searchText.TabIndex = 4;
             // 
             // activated
             // 
@@ -146,6 +179,7 @@
             Text = "AndroidUninstaller";
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -163,5 +197,8 @@
         private DataGridViewTextBoxColumn packageName;
         private DataGridViewTextBoxColumn name;
         private Button activated;
+        private Button search;
+        private TextBox searchText;
+        private Button cancelCheck;
     }
 }

@@ -8,7 +8,7 @@ namespace AndroidUninstaller
         {
             InitializeComponent();
         }
-        
+
         private void GetConnect(object sender, EventArgs e)
         {
             string output = Android.ExecuteAdbCommand("devices");
@@ -91,5 +91,44 @@ namespace AndroidUninstaller
             }
         }
 
+        private void SearchPackage(object sender, EventArgs e)
+        {
+            string packageName = searchText.Text.Trim();
+            if (string.IsNullOrEmpty(packageName))
+            {
+                MessageBox.Show("请输入要搜索的包名");
+                return;
+            }
+            // 遍历所有行，仅保留包名中包含搜索关键字的行
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                var row = dataGridView1.Rows[i];
+                var cellValue = row.Cells["packageName"].Value?.ToString();
+                if (cellValue == null || !cellValue.Contains(packageName, StringComparison.OrdinalIgnoreCase))
+                {
+                    row.Cells["check"].Value = false;
+                }
+                else
+                {
+                    row.Cells["check"].Value = true;
+                    // 显示跳转到该行
+                    dataGridView1.FirstDisplayedScrollingRowIndex = i;
+                    // dataGridView1.Display = i;
+                    dataGridView1.Rows[i].Selected = true;
+                }
+
+            }
+
+        }
+
+        private void CanselCheckAll(object sender, EventArgs e)
+        {
+            // 遍历所有行，将检查框设为 false
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                var row = dataGridView1.Rows[i];
+                row.Cells["check"].Value = false;
+            }
+        }
     }
 }
