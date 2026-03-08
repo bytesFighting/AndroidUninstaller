@@ -40,6 +40,7 @@
             uninstall = new Button();
             packageManager = new Button();
             connect = new Button();
+            copyPackage = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -60,6 +61,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(copyPackage);
             splitContainer1.Panel2.Controls.Add(cancelCheck);
             splitContainer1.Panel2.Controls.Add(search);
             splitContainer1.Panel2.Controls.Add(searchText);
@@ -169,6 +171,16 @@
             connect.UseVisualStyleBackColor = true;
             connect.Click += GetConnect;
             // 
+            // copyPackage
+            // 
+            copyPackage.Location = new Point(408, 3);
+            copyPackage.Name = "copyPackage";
+            copyPackage.Size = new Size(75, 23);
+            copyPackage.TabIndex = 7;
+            copyPackage.Text = "复制包名";
+            copyPackage.UseVisualStyleBackColor = true;
+            copyPackage.Click += CopyPackageName;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -200,5 +212,6 @@
         private Button search;
         private TextBox searchText;
         private Button cancelCheck;
+        private Button copyPackage;
     }
 }

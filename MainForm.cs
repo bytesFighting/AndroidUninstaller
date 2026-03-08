@@ -43,7 +43,8 @@ namespace AndroidUninstaller
                 if (line.StartsWith("package:"))
                 {
                     string packageName = line["package:".Length..];
-                    dataGridView1.Rows.Add(false, packageName, "");
+                    string appName = Package.GetAppName(packageName);
+                    dataGridView1.Rows.Add(false, packageName, appName);
                 }
             }
         }
@@ -57,7 +58,17 @@ namespace AndroidUninstaller
                     string packageName = row.Cells["packageName"].Value?.ToString() ?? string.Empty;
                     if (!string.IsNullOrEmpty(packageName))
                     {
-                        Android.ExecuteAdbCommand($"shell pm uninstall -k {packageName}");
+                        string output = Android.ExecuteAdbCommand($"shell pm uninstall {packageName}"); 
+                        //string output = Android.ExecuteAdbCommand($"shell pm uninstall -k {packageName}");    -k 保留用户数据
+                        if (output.Contains("Failure [-1000]"))
+                        {
+                            MessageBox.Show($"卸载失败：{packageName}");
+                        }
+                        //string output = Android.ExecuteAdbCommand($"shell pm uninstall --user 0 {packageName}");  // 需要root权限
+                        //if (output.IndexOf("Failure [-1000]") != -1)
+                        //{
+                        //    MessageBox.Show($"卸载失败：{packageName}");
+                        //}
                     }
                 }
             }
@@ -128,6 +139,32 @@ namespace AndroidUninstaller
             {
                 var row = dataGridView1.Rows[i];
                 row.Cells["check"].Value = false;
+            }
+        }
+
+        private void CopyPackageName(object sender, EventArgs e)
+        {
+            var sb = new System.Text.StringBuilder();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["check"].Value is bool isChecked && isChecked)
+                {
+                    object? packageCellValue = row.Cells["packageName"].Value;
+                    string? packageName = packageCellValue.ToString();
+                    if (!string.IsNullOrEmpty(packageName))
+                    {
+                        sb.AppendLine(packageName);
+                    }
+                }
+            }
+            if (sb.Length > 0)
+            {
+                Clipboard.SetText(sb.ToString().TrimEnd('\n'));
+                MessageBox.Show("已复制选中的包名");
+            }
+            else
+            {
+                MessageBox.Show("未选中任何包");
             }
         }
     }
